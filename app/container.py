@@ -10,7 +10,10 @@ class Container(containers.DeclarativeContainer):
         ]
     )
 
-    config = providers.Configuration(ini_files=["config.ini"], strict=True)
+    config = providers.Configuration(
+        ini_files=["config.ini"],
+        strict=True
+    )
 
     spotify_service = providers.Singleton(
         SpotifyService,
