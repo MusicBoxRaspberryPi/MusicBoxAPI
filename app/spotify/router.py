@@ -1,16 +1,16 @@
-from fastapi import APIRouter
-from fastapi_restful.cbv import cbv
+from dependency_injector.wiring import inject, Provide
+from fastapi import APIRouter, Depends
 
-from .service import SpotifyService
+from app.container import Container
+from app.spotify.schemas import Device
+from app.spotify.service import SpotifyService
 
 spotify_router = APIRouter()
 
 
-@cbv(spotify_router)
-class SpotifyController:
-    def __init__(self):
-        self.spotify_service = SpotifyService()
-
-    @spotify_router.get("/devices")
-    def get_devices(self):
-        return self.spotify_service.get_devices()
+@spotify_router.get("/devices")
+@inject
+def get_devices(
+        spotify_service: SpotifyService = Depends(Provide[Container.spotify_service]),
+) -> list[Device]:
+    return spotify_service.refresh_devices()
