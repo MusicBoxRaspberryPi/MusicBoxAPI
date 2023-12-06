@@ -1,16 +1,17 @@
 from fastapi import FastAPI
+from pydantic import TypeAdapter
 
-from .config import load_config
-from .spotify.router import spotify_router
-from .system.router import system_router
+from app.container import Container
+from app.spotify.router import spotify_router
+from app.system.router import system_router
 
-config = load_config()
+container = Container()
 
 
-def create_application():
+def create_application() -> FastAPI:
     application = FastAPI(
         title="MusicBox API",
-        debug=True  # TODO: Remove debug mode
+        debug=True
     )
 
     application.include_router(system_router)
@@ -25,8 +26,8 @@ if __name__ == "__main__":
     uvicorn.run(
         "app.main:create_application",
         factory=True,
-        host=config.uvicorn.host,
-        port=config.uvicorn.port,
-        log_level=config.uvicorn.log_level,
-        reload=config.uvicorn.reload,
+        host=container.config.uvicorn.host(),
+        port=int(container.config.uvicorn.port()),
+        log_level=container.config.uvicorn.log_level(),
+        reload=TypeAdapter(bool).validate_python(container.config.uvicorn.reload()),
     )
