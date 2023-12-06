@@ -15,5 +15,6 @@ class Device(BaseModel):
 class Track(BaseModel):
     id: str
 
-    def __post_init__(self):
-        self.uri = f"spotify:track:{self.id}"
+    @property
+    def uri(self):
+        return f"spotify:track:{self.id}"
