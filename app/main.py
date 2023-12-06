@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import TypeAdapter
 
@@ -5,6 +6,7 @@ from app.container import Container
 from app.spotify.router import spotify_router
 from app.system.router import system_router
 
+load_dotenv()
 container = Container()
 
 
