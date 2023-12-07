@@ -44,8 +44,12 @@ class SpotifyService:
                 raise TrackNotFoundError(e.msg)
 
     def refresh_devices(self) -> list[Device]:
-        self.__devices = self.__get_devices_from_api()
-        self.__current_device_index = 0
+        devices_from_api = self.__get_devices_from_api()
+
+        if devices_from_api != self.__devices:
+            self.__devices = devices_from_api
+            self.__current_device_index = 0
+
         return self.__devices
 
     def next_device(self) -> Device | None:
@@ -68,9 +72,14 @@ class SpotifyService:
 
         return self.__devices[self.__current_device_index]
 
+    def get_current_device_index(self) -> int:
+        return self.__current_device_index
+
     def get_devices(self) -> list[Device]:
-        print(self.__devices)
         return self.__devices
+
+    def get_devices_count(self) -> int:
+        return len(self.__devices)
 
     def __get_devices_from_api(self) -> list[Device]:
         devices_json = self.__api.devices()["devices"]

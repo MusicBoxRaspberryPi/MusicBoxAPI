@@ -12,6 +12,12 @@ class Device(BaseModel):
     volume_percent: int
 
 
+class CurrentDevice(BaseModel):
+    device: Device
+    index: int
+    total: int
+
+
 class Track(BaseModel):
     id: str
 
