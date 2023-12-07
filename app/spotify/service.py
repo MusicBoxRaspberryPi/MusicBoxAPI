@@ -84,21 +84,3 @@ class SpotifyService:
     def __get_devices_from_api(self) -> list[Device]:
         devices_json = self.__api.devices()["devices"]
         return [Device(**device) for device in devices_json]
-
-
-
-if __name__ == "__main__":
-    import os
-
-    SPOTIFY_CLIENT_ID = "f194ec87794e4505ace8cb76a65b37df"
-    SPOTIFY_CLIENT_SECRET = "324b3a763f704dbeb0764f9e2bf8d53a"
-
-    service = SpotifyService(
-        client_id=SPOTIFY_CLIENT_ID,
-        client_secret=SPOTIFY_CLIENT_SECRET,
-        redirect_uri="http://localhost:8080"
-    )
-
-    print(service.get_devices())
-
-    service.play(Track(id="2bqS0QtnXGjOYs3z6VtSyW"))
