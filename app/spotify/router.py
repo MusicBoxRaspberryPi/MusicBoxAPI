@@ -26,7 +26,7 @@ def get_current_device(
     )
 
 
-@spotify_router.get("/device/next")
+@spotify_router.post("/device/next")
 @inject
 def next_device(
         spotify_service: SpotifyService = Depends(Provide[Container.spotify_service])
@@ -45,7 +45,7 @@ def next_device(
     )
 
 
-@spotify_router.get("/device/previous")
+@spotify_router.post("/device/previous")
 @inject
 def previous_device(
         spotify_service: SpotifyService = Depends(Provide[Container.spotify_service])
