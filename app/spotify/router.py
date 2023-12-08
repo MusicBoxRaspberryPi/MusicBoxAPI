@@ -37,8 +37,11 @@ def get_current_device(
 def next_device(
         spotify_service: SpotifyService = Depends(Provide[Container.spotify_service])
 ) -> CurrentDevice | dict:
-    spotify_service.refresh_devices()
-    spotify_service.next_device()
+    updated = spotify_service.refresh_devices()
+
+    if not updated:
+        spotify_service.next_device()
+
     current_device = spotify_service.get_current_device()
 
     if current_device is None:
@@ -56,8 +59,11 @@ def next_device(
 def previous_device(
         spotify_service: SpotifyService = Depends(Provide[Container.spotify_service])
 ) -> CurrentDevice | dict:
-    spotify_service.refresh_devices()
-    spotify_service.previous_device()
+    updated = spotify_service.refresh_devices()
+
+    if not updated:
+        spotify_service.previous_device()
+
     current_device = spotify_service.get_current_device()
 
     if current_device is None:
