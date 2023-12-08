@@ -43,14 +43,20 @@ class SpotifyService:
             elif "Invalid track uri" in e.msg:
                 raise TrackNotFoundError(e.msg)
 
-    def refresh_devices(self) -> list[Device]:
+    def refresh_devices(self) -> bool:
+        """
+        Refreshes the devices from the API and returns whether the devices have changed
+
+        :return: Whether the devices have changed
+        """
         devices_from_api = self.__get_devices_from_api()
 
         if devices_from_api != self.__devices:
             self.__devices = devices_from_api
             self.__current_device_index = 0
+            return True
 
-        return self.__devices
+        return False
 
     def next_device(self) -> Device | None:
         if len(self.__devices) == 0:
