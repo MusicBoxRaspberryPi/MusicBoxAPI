@@ -12,9 +12,14 @@ spotify_router = APIRouter()
 @spotify_router.get("/device")
 @inject
 def get_current_device(
+        reset: bool = False,
         spotify_service: SpotifyService = Depends(Provide[Container.spotify_service])
 ) -> CurrentDevice | dict:
     spotify_service.refresh_devices()
+
+    if reset:
+        spotify_service.reset_current_device_index()
+
     current_device = spotify_service.get_current_device()
 
     if current_device is None:

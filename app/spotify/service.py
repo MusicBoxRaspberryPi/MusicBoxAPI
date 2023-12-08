@@ -75,6 +75,9 @@ class SpotifyService:
     def get_current_device_index(self) -> int:
         return self.__current_device_index
 
+    def reset_current_device_index(self) -> None:
+        self.__current_device_index = 0
+
     def get_devices(self) -> list[Device]:
         return self.__devices
 
