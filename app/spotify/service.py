@@ -93,3 +93,19 @@ class SpotifyService:
     def __get_devices_from_api(self) -> list[Device]:
         devices_json = self.__api.devices()["devices"]
         return [Device(**device) for device in devices_json]
+
+
+if __name__ == "__main__":
+    import dotenv
+    from app.container import Container
+
+    dotenv.load_dotenv()
+    container = Container()
+
+    SpotifyService(
+        client_id=container.config.spotify.client_id(),
+        client_secret=container.config.spotify.client_secret(),
+        redirect_uri=container.config.spotify.redirect_uri()
+    )
+
+    print(".cache file created")
